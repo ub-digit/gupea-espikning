@@ -49,7 +49,6 @@ To start the e-publishing process go to:
 https://gupea.ub.gu.se/submissions
 To log in enter:
 Your e-mail address: <%= espikning.email %>
-Password: <%= if !eperson_exists do espikning.password end %>
 
 Your thesis will be assigned a unique Internet-id:
 http://hdl.handle.net/<%= handle %>

@@ -8,13 +8,12 @@ defmodule Espikning.Espikningar.Espikning do
     field :lastname, :string
     field :title, :string
     field :collection_id, :string
-    field :password, :string
   end
 
   def changeset(espikning, params \\ %{}) do
     espikning
-    |> cast(params, [:email, :firstname, :lastname, :title, :collection_id, :password])
-    |> validate_required([:email, :firstname, :lastname, :title, :collection_id, :password], message: "Obligatorisk uppgift")
+    |> cast(params, [:email, :firstname, :lastname, :title, :collection_id])
+    |> validate_required([:email, :firstname, :lastname, :title, :collection_id], message: "Obligatorisk uppgift")
     |> validate_format(:email, ~r/@/, message: "Felaktigt format")
   end
 
