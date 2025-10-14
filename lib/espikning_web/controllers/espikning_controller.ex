@@ -14,20 +14,19 @@ defmodule EspikningWeb.EspikningController do
   end
 
   def confirm(conn, %{"espikning" => espikning_params}) do
-    changeset = Espikningar.change_espikning(%ES{}, espikning_params)
-    if changeset.valid? do
-      [_collection_uuid, collection_name] = changeset.changes.collection_id |> String.split("|", parts: 2)
-      render(
-        conn,
-        :confirm,
-        changeset: changeset,
-        collection_name: collection_name
-      )
-    else
-      collections = Collections.options()
-      render(conn, :new, collections: collections, changeset: changeset)
+    case Espikningar.validate_espikning(%ES{}, espikning_params) do
+      {:ok, changeset} ->
+        [_collection_uuid, collection_name] = changeset.changes.collection_id |> String.split("|", parts: 2)
+        render(
+          conn,
+          :confirm,
+          changeset: changeset,
+          collection_name: collection_name
+        )
+      {:error, changeset} ->
+        collections = Collections.options()
+        render(conn, :new, collections: collections, changeset: changeset)
     end
-
   end
 
   def create(

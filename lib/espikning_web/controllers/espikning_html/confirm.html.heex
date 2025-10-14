@@ -1,50 +1,52 @@
-<div class="space-y-4">
-  
-  <div class="p-1">
-    <div class="text-sm text-gray-500">E-post</div>
-    <div class="text-gray-900"><%= @changeset.changes.email %></div>
+<Layouts.app flash={@flash}>
+  <div class="space-y-4">
+
+    <div class="p-1">
+      <div class="text-sm text-gray-500">E-post</div>
+      <div class="text-gray-900"><%= @changeset.changes.email %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Efternamn</div>
+      <div class="text-gray-900"><%= @changeset.changes.lastname %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Förnamn</div>
+      <div class="text-gray-900"><%= @changeset.changes.firstname %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Avhandlingens titel</div>
+      <div class="text-gray-900"><%= @changeset.changes.title %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Samling</div>
+      <div class="text-gray-900"><%= @collection_name %></div>
+    </div>
   </div>
 
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Efternamn</div>
-    <div class="text-gray-900"><%= @changeset.changes.lastname %></div>
-  </div>
+  <div class="card-actions justify-end mt-4">
 
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Förnamn</div>
-    <div class="text-gray-900"><%= @changeset.changes.firstname %></div>
-  </div>
+   <!-- Back form -->
+    <.form for={@changeset} action={~p"/"} method="get">
+      <!-- Hidden fields so user doesn’t lose input -->
+      <%= for {field, value} <- @changeset.changes do %>
+        <input type="hidden" name={"espikning[#{field}]"} value={value} />
+        <% end %>
 
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Avhandlingens titel</div>
-    <div class="text-gray-900"><%= @changeset.changes.title %></div>
-  </div>
+      <.button >Ändra</.button>
+    </.form>
 
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Samling</div>
-    <div class="text-gray-900"><%= @collection_name %></div>
-  </div>
-</div>
-
-<div class="card-actions justify-end mt-4">
-
- <!-- Back form -->
-  <.form for={@changeset} action={~p"/"} method="get">
-    <!-- Hidden fields so user doesn’t lose input -->
-    <%= for {field, value} <- @changeset.changes do %>
-      <input type="hidden" name={"espikning[#{field}]"} value={value} />
+    <!-- Confirm form -->
+    <.form for={@changeset} action={~p"/create"} method="post">
+      <!-- Hidden fields to preserve input -->
+      <%= for {field, value} <- @changeset.changes do %>
+        <input type="hidden" name={"espikning[#{field}]"} value={value} />
       <% end %>
 
-    <.button >Ändra</.button>
-  </.form>
-
-  <!-- Confirm form -->
-  <.form for={@changeset} action={~p"/create"} method="post">
-    <!-- Hidden fields to preserve input -->
-    <%= for {field, value} <- @changeset.changes do %>
-      <input type="hidden" name={"espikning[#{field}]"} value={value} />
-    <% end %>
-
-    <.button variant="primary">Skapa konto</.button>
-  </.form>
-</div>
+      <.button variant="primary">Skapa konto</.button>
+    </.form>
+  </div>
+</Layouts.app>

@@ -1,42 +1,44 @@
-<h2 class="card-title">Kontot är skapat!</h2>
+<Layouts.app flash={@flash}>
+  <h2 class="card-title">Kontot är skapat!</h2>
 
-<%= if @eperson_exists do %>
-  <p>E-personen finns redan.</p>
-  <p>Rättigheter och ev. metadata har kopplats till det befintliga användarkontot.</p>
-<% end %>
+  <%= if @eperson_exists do %>
+    <p>E-personen finns redan.</p>
+    <p>Rättigheter och ev. metadata har kopplats till det befintliga användarkontot.</p>
+  <% end %>
 
-<div class="space-y-4">
-  <div class="p-1">
-    <div class="text-sm text-gray-500">E-post</div>
-    <div class="text-gray-900"><%= @espikning.email %></div>
+  <div class="space-y-4">
+    <div class="p-1">
+      <div class="text-sm text-gray-500">E-post</div>
+      <div class="text-gray-900"><%= @espikning.email %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Efternamn</div>
+      <div class="text-gray-900"><%= @espikning.lastname %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Förnamn</div>
+      <div class="text-gray-900"><%= @espikning.firstname %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Avhandlingens titel</div>
+      <div class="text-gray-900"><%= @espikning.title %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Samling</div>
+      <div class="text-gray-900"><%= @collection_name %></div>
+    </div>
+
+    <div class="p-1">
+      <div class="font-medium text-gray-500">Handle</div>
+      <div class="text-gray-900"><%= @handle %></div>
+    </div>
   </div>
 
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Efternamn</div>
-    <div class="text-gray-900"><%= @espikning.lastname %></div>
+  <div class="card-actions justify-end mt-4">
+    <.link navigate={~p"/"} class="btn btn-primary">Ny espikning</.link>
   </div>
-
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Förnamn</div>
-    <div class="text-gray-900"><%= @espikning.firstname %></div>
-  </div>
-
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Avhandlingens titel</div>
-    <div class="text-gray-900"><%= @espikning.title %></div>
-  </div>
-
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Samling</div>
-    <div class="text-gray-900"><%= @collection_name %></div>
-  </div>
-
-  <div class="p-1">
-    <div class="font-medium text-gray-500">Handle</div>
-    <div class="text-gray-900"><%= @handle %></div>
-  </div>
-</div>
-
-<div class="card-actions justify-end mt-4">
-  <.link navigate={~p"/"} class="btn btn-primary">Ny espikning</.link>
-</div>
+</Layouts.app>

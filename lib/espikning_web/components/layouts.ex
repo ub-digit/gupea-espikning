@@ -35,40 +35,18 @@ defmodule EspikningWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <header class="navbar px-4 sm:px-6 lg:px-8">
-      <div class="flex-1">
-        <a href="/" class="flex-1 flex w-fit items-center gap-2">
-          <img src={~p"/images/logo.svg"} width="36" />
-          <span class="text-sm font-semibold">v{Application.spec(:phoenix, :vsn)}</span>
-        </a>
+    <div class="min-h-screen bg-base-200 flex flex-col items-center px-4 py-12">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-heading font-bold text-primary">GUPEA - Espikning</h1>
+        <p class="text-lg text-base-content mt-2">Skapa konto för avhandling</p>
       </div>
-      <div class="flex-none">
-        <ul class="flex flex-column px-1 space-x-4 items-center">
-          <li>
-            <a href="https://phoenixframework.org/" class="btn btn-ghost">Website</a>
-          </li>
-          <li>
-            <a href="https://github.com/phoenixframework/phoenix" class="btn btn-ghost">GitHub</a>
-          </li>
-          <li>
-            <.theme_toggle />
-          </li>
-          <li>
-            <a href="https://hexdocs.pm/phoenix/overview.html" class="btn btn-primary">
-              Get Started <span aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-        </ul>
+      <.flash_group flash={@flash} />
+      <div class="card w-full max-w-xl bg-base-100 shadow-md rounded-xl">
+        <div class="card-body">
+          {render_slot(@inner_block)}
+        </div>
       </div>
-    </header>
-
-    <main class="px-4 py-20 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl space-y-4">
-        {render_slot(@inner_block)}
-      </div>
-    </main>
-
-    <.flash_group flash={@flash} />
+    </div>
     """
   end
 

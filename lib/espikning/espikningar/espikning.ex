@@ -17,7 +17,7 @@ defmodule Espikning.Espikningar.Espikning do
     |> validate_format(:email, ~r/@/, message: "Felaktigt format")
   end
 
-  def validated_changeset(espikning, params \\ %{}) do
+  def validated_changeset(espikning, params) do
     changeset(espikning, params) |> apply_action(:update)
   end
 end

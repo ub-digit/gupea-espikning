@@ -1,11 +1,12 @@
-<.form :let={f} for={@changeset} action={~p"/"}>
-  <.input field={f[:email]} type="text" label="E-post *" required />
-  <.input field={f[:lastname]} type="text" label="Efternamn *" required />
-  <.input field={f[:firstname]} type="text"  label="Förnamn *" required />
-  <.input field={f[:title]} type="text" label="Avhandlingens titel *" required />
-  <.input field={f[:collection_id]} type="select" label="Samling *" options={@collections} prompt="Välj i listan..." required />
-  
-  <div class="card-actions justify-end mt-4">
-    <.button variant="primary">Fortsätt</.button>
-  </div>
-</.form>
+<Layouts.app flash={@flash}>
+  <.form :let={f} for={@changeset} action={~p"/"}>
+    <.input field={f[:email]} type="text" label="E-post *" />
+    <.input field={f[:lastname]} type="text" label="Efternamn *" />
+    <.input field={f[:firstname]} type="text"  label="Förnamn *"  />
+    <.input field={f[:title]} type="text" label="Avhandlingens titel *" />
+    <.input field={f[:collection_id]} type="select" label="Samling *" options={@collections} prompt="Välj i listan..." />
+    <div class="card-actions justify-end mt-4">
+      <.button variant="primary">Fortsätt</.button>
+    </div>
+  </.form>
+</Layouts.app>

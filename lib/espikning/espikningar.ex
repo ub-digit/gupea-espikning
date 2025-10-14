@@ -6,6 +6,10 @@ defmodule Espikning.Espikningar do
     ES.changeset(espikning, attrs)
   end
 
+  def validate_espikning(%ES{} = espikning, attrs) do
+    ES.validated_changeset(espikning, attrs)
+  end
+
   def create_espikning(
     %{
       collection_uuid: collection_uuid,
