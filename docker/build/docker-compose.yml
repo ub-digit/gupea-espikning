@@ -1,0 +1,8 @@
+services:
+  gupea-espikning:
+    image: docker.ub.gu.se/gupea-espikning:${GIT_REVISION}
+    build:
+      context: ./gupea-espikning
+      args:
+        - GIT_REPO_URL=${GIT_REPO_URL}
+        - GIT_REVISION=${GIT_REVISION}
