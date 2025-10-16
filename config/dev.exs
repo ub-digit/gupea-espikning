@@ -5,10 +5,10 @@ config :espikning, Espikning.Mailer,
 
 # Configure your database
 config :espikning, Espikning.Repo,
-  username: "dspace",
-  password: "dspace",
-  hostname: "localhost",
-  database: "dspace",
+  username: System.get_env("DB_USER"),
+  password: System.get_env("DB_PASSWORD"),
+  hostname: System.get_env("DB_HOST"),
+  database: System.get_env("DB_NAME"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -18,16 +18,24 @@ config :espikning, Espikning.Repo,
     password: System.get_env("DSPACE_API_PASSWORD"),
     api_base_url: System.get_env("DSPACE_API_BASE_URL") || "https://gupea-dev.ub.gu.se/server/api"
 
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
+
+ip = case System.get_env("PHX_IP") do
+  "0.0.0.0" -> {0, 0, 0, 0}
+  "127.0.0.1" -> {127, 0, 0, 1}
+  nil -> {127, 0, 0, 1} # default to localhost
+end
+
 config :espikning, EspikningWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: String.to_integer(System.get_env("PORT") || "4000")],
+  http: [ip: ip, port: String.to_integer(System.get_env("PHX_PORT") || "4000")],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
