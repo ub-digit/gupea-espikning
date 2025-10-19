@@ -20,7 +20,7 @@ ARG DEBIAN_VERSION=bookworm-20250929-slim
 ARG BUILDER_IMAGE="docker.io/hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
 ARG RUNNER_IMAGE="docker.io/debian:${DEBIAN_VERSION}"
 
-FROM ${BUILDER_IMAGE} as builder
+FROM ${BUILDER_IMAGE} AS builder
 
 ARG GIT_REVISION
 ARG GIT_REPO_URL
@@ -48,11 +48,15 @@ RUN mix deps.get --only $MIX_ENV
 
 RUN mix deps.compile
 
+RUN mix assets.setup
+
 # Compile the release
 RUN mix compile
 
 # Compile assets
-RUN mix assets.deploy
+RUN mix tailwind espikning --minify
+RUN mix esbuild espikning --minify
+RUN mix phx.digest --only assets fonts images
 
 # Create the release
 RUN mix release
