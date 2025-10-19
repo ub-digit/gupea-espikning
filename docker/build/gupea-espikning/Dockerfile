@@ -50,6 +50,8 @@ RUN mix deps.compile
 
 RUN mix assets.setup
 
+RUN mix phx.digest
+
 # Compile the release
 RUN mix compile
 
