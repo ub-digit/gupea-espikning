@@ -48,13 +48,13 @@ RUN mix deps.get --only $MIX_ENV
 
 RUN mix deps.compile
 
-RUN mix assets.setup
-
-RUN mix phx.digest
-
 # Compile the release
 RUN mix compile
 
+# Compile assets
+RUN mix assets.deploy
+
+# Create the release
 RUN mix release
 
 # start a new build stage so that the final image will only contain
