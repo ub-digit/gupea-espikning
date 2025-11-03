@@ -10,17 +10,5 @@ services:
       - DATABASE_URL=ecto://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}
       - SECRET_KEY_BASE=${BACKEND_SECRET_KEY_BASE}
       - PHX_IP=${PHX_IP}
-    depends_on:
-      - db
     ports:
       - ${GUPEA_ESPIKNING_HOST_PORT}:4000
-  db:
-    image: postgres:17 #TODO: Check postgres version of dspace docker compose setup
-    restart: always
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
-    volumes:
-      - ./postgres-initdb.d:/docker-entrypoint-initdb.d
-      - ./postgres-data:/var/lib/postgresql/data

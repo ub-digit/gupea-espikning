@@ -9,4 +9,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - "../:/app"
-      - "../_build:/app/_build"
+networks:
+  default:
+    name: dspace_dspace-net
+    external: true
