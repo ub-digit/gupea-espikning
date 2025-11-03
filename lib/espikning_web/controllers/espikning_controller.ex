@@ -15,7 +15,8 @@ defmodule EspikningWeb.EspikningController do
 
   def confirm(conn, %{"espikning" => espikning_params}) do
     case Espikningar.validate_espikning(%ES{}, espikning_params) do
-      {:ok, changeset} ->
+      {:ok, _changes} ->
+        changeset = Espikningar.change_espikning(%ES{}, espikning_params) # Hack
         [_collection_uuid, collection_name] = changeset.changes.collection_id |> String.split("|", parts: 2)
         render(
           conn,
