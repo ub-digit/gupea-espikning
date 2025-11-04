@@ -2,14 +2,14 @@ defmodule EspikningWeb.EspikningController do
   use EspikningWeb, :controller
   alias Espikning.Espikningar
   alias Espikning.Espikningar.Espikning, as: ES
-  alias Espikning.Collections
+  alias Espikning.DSpaceDB
 
   alias Espikning.Email
   alias Espikning.Mailer
 
   def new(conn, params) do
     changeset = Espikningar.change_espikning(%ES{}, Map.get(params, "espikning", %{}))
-    collections = Collections.options()
+    collections = DSpaceDB.collections_options()
     render(conn, :new, collections: collections, changeset: changeset)
   end
 
@@ -25,7 +25,7 @@ defmodule EspikningWeb.EspikningController do
           collection_name: collection_name
         )
       {:error, changeset} ->
-        collections = Collections.options()
+        collections = DSpaceDB.collections_options()
         render(conn, :new, collections: collections, changeset: changeset)
     end
   end
@@ -41,7 +41,7 @@ defmodule EspikningWeb.EspikningController do
     }
   ) do
     changeset = Espikningar.change_espikning(%ES{}, espikning_params)
-    collections = Collections.options()
+    collections = DSpaceDB.collections_options()
     if changeset.valid? do
       espikning = Map.new(espikning_params, fn
         {k,v} when is_nil(v) -> {String.to_atom(k), nil}

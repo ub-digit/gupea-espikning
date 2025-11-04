@@ -26,7 +26,9 @@ defmodule Espikning.Espikningar do
         "ADD"
       ),
       {:ok, %{"id" => workspace_item_id}} <- DSpaceAPI.create_workspace_item(collection_uuid),
-      {:ok, %{"uuid" => item_uuid, "handle" => item_handle}} <- DSpaceAPI.get_workspace_item_item(workspace_item_id), 
+      {:ok, %{"uuid" => item_uuid}} <- DSpaceAPI.get_workspace_item_item(workspace_item_id),
+      {:ok, _result} <- DSpaceDB.set_item_submitter(item_uuid, eperson_uuid),
+      {:ok, item_handle} <- DSpaceDB.create_item_handle(item_uuid),
       {:ok, _hmmm} <- DSpaceAPI.set_item_metadata(
         item_uuid, %{
           "dc.title" => title,
@@ -59,8 +61,8 @@ defmodule Espikning.Espikningar do
   def find_or_create_eperson_policy(eperson_uuid, resource_uuid, action) do
     case DSpaceAPI.search_eperson_policies(eperson_uuid, resource_uuid) do
       {:ok, policies} ->
-        case Enum.find(policies, nil, fn policy -> policy["action"] === action end) do 
-          nil -> 
+        case Enum.find(policies, nil, fn policy -> policy["action"] === action end) do
+          nil ->
             DSpaceAPI.create_eperson_policy(eperson_uuid, resource_uuid, action)
           policy ->
             {:ok, policy}

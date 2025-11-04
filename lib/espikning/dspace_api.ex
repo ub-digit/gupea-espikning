@@ -116,7 +116,7 @@ defmodule Espikning.DSpaceAPI do
   # entries (better name?) is on the format %{ "<field>" => "<value", ... }
   #: TODO: validate op?
   def set_item_metadata(item_uuid, values, op) do
-    values = values 
+    values = values
       |> Map.to_list()
       |> Enum.map(fn {field, value} ->
         {"/metadata/#{field}", [%{"value" => value}]}
@@ -132,6 +132,17 @@ defmodule Espikning.DSpaceAPI do
         %{"op" => op, "path" => path, "value" => value}
       end)
     Client.patch("/core/items/#{item_uuid}", operations)
+  end
+
+  @doc """
+  Update item with existing data to trigger reindexing
+  Probably not needed as non archived items are not indexed anyway?
+  """
+  def touch_item(item_uuid) do
+    Client.patch("/core/items/#{item_uuid}", [
+      %{ "op" => "replace", "path" => "/discoverable", "value" => false },
+      %{ "op" => "replace", "path" => "/discoverable", "value" => true }
+    ])
   end
 
 end
