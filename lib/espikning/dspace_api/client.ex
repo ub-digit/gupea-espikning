@@ -83,7 +83,7 @@ defmodule Espikning.DSpaceAPI.Client do
           :uri_list -> [{:body, data}, {:headers, [{"Content-Type", "text/uri-list"} | headers]} | opts]
         end
         case method do
-          :post -> 
+          :post ->
             Req.post(base_req(), opts)
           :put ->
             Req.put(base_req(), opts)
@@ -133,7 +133,7 @@ defmodule Espikning.DSpaceAPI.Client do
         {:reply, {:error, exception}, state}  # TODO: Log exception
     end
   end
-  
+
   def base_req_debug() do
     Req.new(base_url: "http://localhost:8080")
   end

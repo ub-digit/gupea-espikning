@@ -26,8 +26,7 @@ defmodule Espikning.DSpaceAPI do
   def create_eperson(%{
     email: email,
     firstname: firstname,
-    lastname: lastname,
-    password: _password
+    lastname: lastname
   }) do
     eperson_data =  %{
       "name" => email,

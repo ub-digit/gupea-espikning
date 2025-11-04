@@ -1,6 +1,7 @@
 defmodule Espikning.Espikningar do
   alias Espikning.Espikningar.Espikning, as: ES
   alias Espikning.DSpaceAPI
+  alias Espikning.DSpaceDB
 
   def change_espikning(%ES{} = espikning, attrs \\ %{}) do
     ES.changeset(espikning, attrs)

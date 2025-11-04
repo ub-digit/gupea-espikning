@@ -66,7 +66,7 @@ defmodule Espikning.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      {:uuid, "~> 1.1" }, # Remove?
+      {:uuid, "~> 1.1" },
       {:mint, "~> 1.7"},
       {:tesla, "~> 1.15"}
     ]

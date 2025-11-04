@@ -30,8 +30,10 @@ defmodule Espikning.DSpaceDB do
   end
 
   def set_item_submitter(item_uuid, eperson_uuid) do
+    item_uuid = UUID.string_to_binary!(item_uuid)
+    eperson_uuid = UUID.string_to_binary!(eperson_uuid)
     result = from(i in "item", where: i.uuid == ^item_uuid)
-    |> Repo.update_all("item", set: [submitter_id: eperson_uuid])
+    |> Repo.update_all(set: [submitter_id: eperson_uuid])
     case result do
       {count, result} when count == 1 -> {:ok, result}
       {0, _result} ->
@@ -54,11 +56,10 @@ defmodule Espikning.DSpaceDB do
         handle_id: handle_id,
         handle: handle_string,
         resource_type_id: @resource_type_item,
-        resource_id: item_uuid
+        resource_id: UUID.string_to_binary!(item_uuid)
       }
       Repo.insert_all("handle", [handle])
-      handle_string
+      {:ok, handle_string}
     end)
   end
-
 end
