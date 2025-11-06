@@ -6,10 +6,12 @@ services:
     image: docker.ub.gu.se/gupea-espikning:${GIT_REVISION}
     restart: always
     environment:
-      - MIX_ENV=prod
-      - DATABASE_URL=ecto://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}
-      - DSPACE_API_BASE_URL=${DSPACE_API_BASE_URL}
-      - SECRET_KEY_BASE=${BACKEND_SECRET_KEY_BASE}
-      - PHX_IP=${PHX_IP}
+      MIX_ENV: prod
+      DATABASE_URL: 'ecto://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}'
+      DSPACE_API_BASE_URL: '${DSPACE_API_BASE_URL}'
+      SMTP_SERVER: '${SMTP_SERVER}'
+      SMTP_PORT: '${SMTP_PORT}'
+      SECRET_KEY_BASE: '${BACKEND_SECRET_KEY_BASE}'
+      PHX_IP: '${PHX_IP}'
     ports:
       - ${GUPEA_ESPIKNING_HOST_PORT}:4000
