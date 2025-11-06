@@ -64,8 +64,6 @@ defmodule Espikning.DSpaceAPI do
       )
     do
       {:ok, eperson}
-    else
-      err -> err #TODO: Determine which failed and rollback creation?
     end
   end
 

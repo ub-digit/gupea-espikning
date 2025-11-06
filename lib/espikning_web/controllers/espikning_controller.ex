@@ -47,9 +47,11 @@ defmodule EspikningWeb.EspikningController do
         {k,v} when is_nil(v) -> {String.to_atom(k), nil}
         {k,v} -> {String.to_atom(k), String.trim(v)}
       end)
+
       # TODO: collection_uuid could be manipulated I guess? Validate?
       [collection_uuid, collection_name] = collection_id |> String.split("|", parts: 2)
       espikning = Map.put(espikning, :collection_uuid, collection_uuid)
+
       case Espikningar.create_espikning(espikning) do
         {:ok, item_handle, eperson_exists} ->
           Email.welcome(espikning, eperson_exists, item_handle) |> Mailer.deliver()
@@ -61,9 +63,30 @@ defmodule EspikningWeb.EspikningController do
             collection_name: collection_name,
             handle: item_handle
           )
-        {:error, _error} ->
+        {:error, reason} ->
+          reason_message = case reason do
+            reason when is_binary(reason) -> reason
+            reason when is_atom(reason) ->
+              reason
+              |> Atom.to_string()
+              |> String.replace("_", " ")
+              |> String.capitalize()
+            reason when is_exception(reason) -> Exception.message(reason)
+            _ ->
+              # TODO: Remove when have proper logging
+              IO.inspect(reason, label: "Error creating espikning")
+              nil
+          end
+
+          error_message = "Något gick fel när försökte skapa espikning, var god försök igen"
+          error_message = if reason_message do
+            "#{error_message}. Felmeddelandet var: \"#{reason_message}\"."
+          else
+            "#{error_message}."
+          end
+
           conn
-          |> put_flash(:error, "Något gick fel när försökte skapa espikning, var god försök igen") # TODO: Fix flash
+          |> assign(:error_message, error_message)
           |> render(:new, collections: collections, changeset: changeset)
       end
     else

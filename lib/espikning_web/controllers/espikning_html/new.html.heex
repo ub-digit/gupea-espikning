@@ -1,4 +1,9 @@
 <Layouts.app flash={@flash}>
+
+  <%= if Map.get(assigns, :error_message) do %>
+    <div class="alert alert-danger"><%= Map.get(assigns, :error_message) %></div>
+  <% end %>
+
   <.form :let={f} for={@changeset} action={~p"/"}>
     <.input field={f[:email]} type="text" label="E-post *" />
     <.input field={f[:lastname]} type="text" label="Efternamn *" />

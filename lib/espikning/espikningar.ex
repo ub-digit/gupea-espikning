@@ -41,10 +41,6 @@ defmodule Espikning.Espikningar do
       {:ok, _policies} <- DSpaceAPI.create_eperson_policies(eperson_uuid, item_uuid)
     do
       {:ok, item_handle, eperson_exists}
-    else
-      {:error, reason} ->
-        IO.puts("error")
-        IO.inspect(reason)
     end
   end
 

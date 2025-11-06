@@ -17,10 +17,10 @@ defmodule Espikning.DSpaceAPI.Client do
 
   def patch(endpoint, data, params \\ []), do: do_request({:patch, endpoint, data, params, :json})
   def patch(endpoint, data, params, format), do: do_request({:patch, endpoint, data, params, format})
-  
+
   def put(endpoint, data, params \\ []), do: do_request({:put, endpoint, data, params, :json})
   def put(endpoint, data, params, format), do: do_request({:put, endpoint, data, params, format})
-  
+
   def get(endpoint, params \\ []), do: do_request({:get, endpoint, params})
 
   defp do_request(request, try_authenticate \\ true) do
@@ -28,7 +28,7 @@ defmodule Espikning.DSpaceAPI.Client do
       {:ok, response_json} -> {:ok, response_json}
       {:error, :unauthenticated} when try_authenticate  ->
         case GenServer.call(__MODULE__, :authenticate) do
-          {:ok, _jwt, _csrf} -> 
+          {:ok, _jwt, _csrf} ->
             do_request(request, false)
           {:error, reason} -> {:error, reason}
         end
