@@ -37,10 +37,8 @@ defmodule Espikning.DSpaceDB do
     case result do
       {count, result} when count == 1 -> {:ok, result}
       {0, _result} ->
-        # TODO: Logger not found
         {:error, :set_item_submitter_not_found}
       _ ->
-        #TODO: Logger wtf
         {:error, :set_item_submitter_mutliple_found}
     end
   end

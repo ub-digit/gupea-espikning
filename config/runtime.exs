@@ -32,6 +32,19 @@ if config_env() == :prod do
     relay: System.get_env("SMTP_SERVER"),
     port: System.get_env("SMTP_PORT")
 
+  config :logger_json, encoder: Jason
+
+  config :logger,
+    formatters: %{
+      ecs: {LoggerJSON.Formatters.Elastic, metadata: :all}
+    },
+    handlers: %{
+      default_handler: %{
+        formatter: :ecs,
+        level: :info
+      }
+    }
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """
