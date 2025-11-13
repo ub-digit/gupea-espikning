@@ -51,6 +51,8 @@ config :tailwind,
     cd: Path.expand("..", __DIR__)
   ]
 
+config :logger_json, encoder: JSON
+
 # Configures Elixir's Logger
 config :logger, :default_formatter,
   format: "$time $metadata[$level] $message\n",

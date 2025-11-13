@@ -93,7 +93,7 @@ defmodule Espikning.DSpaceAPI do
       {:ok, []},
       fn action, {:ok, policies} ->
         case create_eperson_policy(eperson_uuid, resource_uuid, action) do
-          {:ok, policy} -> {:ok, [policy | policies]}
+          {:ok, _policy} -> {:ok, [{eperson_uuid, resource_uuid, action} | policies]}
           {:error, _reason} -> {:error, policies}
         end
       # Don't create more policies if one fail

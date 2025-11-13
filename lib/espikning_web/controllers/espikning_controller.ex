@@ -1,11 +1,14 @@
 defmodule EspikningWeb.EspikningController do
   use EspikningWeb, :controller
+
+  require Logger
+
   alias Espikning.Espikningar
   alias Espikning.Espikningar.Espikning, as: ES
   alias Espikning.DSpaceDB
-
   alias Espikning.Email
   alias Espikning.Mailer
+
 
   def new(conn, params) do
     changeset = Espikningar.change_espikning(%ES{}, Map.get(params, "espikning", %{}))
@@ -52,34 +55,29 @@ defmodule EspikningWeb.EspikningController do
       [collection_uuid, collection_name] = collection_id |> String.split("|", parts: 2)
       espikning = Map.put(espikning, :collection_uuid, collection_uuid)
 
-      case Espikningar.create_espikning(espikning) do
-        {:ok, item_handle, eperson_exists} ->
-          Email.welcome(espikning, eperson_exists, item_handle) |> Mailer.deliver()
-          render(
-            conn,
-            :create,
-            espikning: espikning,
-            eperson_exists: eperson_exists,
-            collection_name: collection_name,
-            handle: item_handle
-          )
+      with {:ok, item_handle, eperson_exists} <- Espikningar.create_espikning(espikning),
+        {:ok, _response} <- Email.welcome(espikning, eperson_exists, item_handle) |> Mailer.deliver()
+      do
+        Logger.info("Espikning successfullu created: #{inspect(espikning)}")
+        render(
+          conn,
+          :create,
+          espikning: espikning,
+          eperson_exists: eperson_exists,
+          collection_name: collection_name,
+          handle: item_handle
+        )
+      else
         {:error, reason} ->
-          reason_message = case reason do
-            reason when is_binary(reason) -> reason
-            reason when is_atom(reason) ->
-              reason
-              |> Atom.to_string()
-              |> String.replace("_", " ")
-              |> String.capitalize()
-            reason when is_exception(reason) -> Exception.message(reason)
-            _ ->
-              # TODO: Remove when have proper logging
-              IO.inspect(reason, label: "Error creating espikning")
+          reason_message = case reason_extract_message(reason) do
+            {:ok, message} -> message
+            {:error, reason} ->
+              Logger.error("Unkown error while trying to creating espikning: #{inspect(reason)}")
               nil
           end
-
           error_message = "Något gick fel när försökte skapa espikning, var god försök igen"
           error_message = if reason_message do
+            Logger.error("Error while trying to create espikning: #{reason_message}")
             "#{error_message}. Felmeddelandet var: \"#{reason_message}\"."
           else
             "#{error_message}."
@@ -91,6 +89,24 @@ defmodule EspikningWeb.EspikningController do
       end
     else
       render(conn, :new, collections: collections, changeset: changeset)
+    end
+  end
+
+  defp reason_extract_message(reason) do
+    case reason do
+      reason when is_binary(reason) -> {:ok, reason}
+      reason when is_atom(reason) ->
+        {
+          :ok,
+          reason
+          |> Atom.to_string()
+          |> String.replace("_", " ")
+          |> String.capitalize()
+        }
+      reason when is_exception(reason) -> {:ok, Exception.message(reason)}
+      _ ->
+        Logger.error("Unkown error while trying to creating espikning: #{inspect(reason)}")
+        {:error, reason}
     end
   end
 end
