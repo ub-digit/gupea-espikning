@@ -1,6 +1,8 @@
 defmodule Espikning.DSpaceAPI.Client do
   use GenServer
 
+  require Logger
+
   @connect_timeout 100000
 
   @impl true
@@ -30,12 +32,23 @@ defmodule Espikning.DSpaceAPI.Client do
         case GenServer.call(__MODULE__, :authenticate) do
           {:ok, _jwt, _csrf} ->
             do_request(request, false)
-          {:error, reason} -> {:error, reason}
+          {:error, reason} ->
+            # Currently the only error returned
+            if reason == :invalid_credentials do
+              Logger.error("Invalid credentials when trying to authenticate")
+            end
+            {:error, reason}
         end
+      {:error, :unauthenticated} ->
+        Logger.error("Unauthenticated despite successfull authentication")
+        {:error, :unauthenticated}
       {:error, %Req.Response{status: status}} ->
+        Logger.error("Invalid http status: #{status}")
         {:error, {:invalid_status, status}} #??
-      {:error, reason} ->
-        {:error, reason} # TODO: Handle, logging?
+      {:error, reason} when is_exception(reason) ->
+        message = Exception.message(reason)
+        Logger.error("Exception during request: #{message}")
+        {:error, reason}
     end
   end
 
@@ -69,7 +82,8 @@ defmodule Espikning.DSpaceAPI.Client do
     case response.headers["authorization"] do
       ["Bearer " <> jwt] ->
         {:reply, {:ok, csrf_token, jwt}, %{csrf: csrf_token, jwt: jwt}}
-      _ -> {:reply, {:error, :invalid_credentials}, %{}}
+      _ ->
+        {:reply, {:error, :invalid_credentials}, %{}}
     end
   end
 
@@ -128,9 +142,9 @@ defmodule Espikning.DSpaceAPI.Client do
       {:ok, %Req.Response{status: 401}} ->
         {:reply, {:error, :unauthenticated}, %{}}
       {:ok, %Req.Response{} = response} ->
-        {:reply, {:error, response}, state} #TODO: Logging
+        {:reply, {:error, response}, state}
       {:error, exception} ->
-        {:reply, {:error, exception}, state}  # TODO: Log exception
+        {:reply, {:error, exception}, state}
     end
   end
 
