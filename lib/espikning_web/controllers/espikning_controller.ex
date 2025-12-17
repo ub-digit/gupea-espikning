@@ -33,6 +33,15 @@ defmodule EspikningWeb.EspikningController do
     end
   end
 
+  def frontend_url(path) do
+    System.get_env("DSPACE_FRONTEND_BASE_URL", System.get_env("DSPACE_FRONTEND_BASE_URL"))
+    |> URI.parse()
+    |> Map.take([:scheme, :host, :port])
+    |> then(fn uri ->
+      %URI{uri | path: path}
+    end)
+  end
+
   def create(
     conn, %{
       "espikning" => %{
@@ -54,9 +63,10 @@ defmodule EspikningWeb.EspikningController do
       # TODO: collection_uuid could be manipulated I guess? Validate?
       [collection_uuid, collection_name] = collection_id |> String.split("|", parts: 2)
       espikning = Map.put(espikning, :collection_uuid, collection_uuid)
+      espikning_gupea_url = frontend_url("mydspace")
 
       with {:ok, item_handle, eperson_exists} <- Espikningar.create_espikning(espikning),
-        {:ok, _response} <- Email.welcome(espikning, eperson_exists, item_handle) |> Mailer.deliver()
+        {:ok, _response} <- Email.welcome(espikning, eperson_exists, item_handle, espikning_gupea_url) |> Mailer.deliver()
       do
         Logger.info("Espikning successfullu created: #{inspect(espikning)}")
         render(
