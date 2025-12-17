@@ -11,5 +11,5 @@ services:
       - "../:/app"
 networks:
   default:
-    name: dspace_dspace-net
+    name: gupea_dspace-net
     external: true
