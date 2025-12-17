@@ -1,4 +1,3 @@
-Subject: GUPEA: E-spikning av doktorsavhandling / E-publishing of doctoral thesis
 <%= espikning.firstname %>,
 
 Information inför publiceringen av din doktorsavhandling "<%= espikning.title %>" i GUPEA.
@@ -6,21 +5,19 @@ Information inför publiceringen av din doktorsavhandling "<%= espikning.title %
 (NB! This letter contains information how to e-publish your doctoral thesis "<%= espikning.title %>" in GUPEA. For an English version, please see below.)
 
 OBS!
-För att e-publicera måste du ha tillgång till din avhandling och spikbladet i pdf-format. Den e-publicerade avhandlingen ska vara identisk med den tryckta upplagan.
-För sammanläggningsavhandlingar gäller: pdf-filen ska endast bestå av kappan/ramberättelsen och inte artiklarna.
-En handläggare på institutionen eller fakultetskansliet kommer att granska registreringen några dagar innan spikningsdagen. Avhandlingen görs publikt tillgänglig på spikdagen.
+För att e-publicera måste du ha tillgång till din avhandling och spikbladet i pdf-format. Den e-publicerade avhandlingen ska vara identisk med den tryckta upplagan. För sammanläggningsavhandlingar gäller: pdf-filen ska endast bestå av kappan/ramberättelsen och inte artiklarna. En handläggare på institutionen eller fakultetskansliet kommer att granska registreringen några dagar innan spikningsdagen. Avhandlingen görs publikt tillgänglig på spikdagen.
 
 För att genomföra e-publiceringen går du till sidan:
-https://gupea.ub.gu.se/submissions
-Logga in med e-postadress <%= espikning.email %>.
-
+<%= espikning_gupea_url %>
+Logga in med din e-postadress: <%= espikning.email %>.
+<%= if not eperson_exists do %>För att sätta ett lösenord, klicka på länken i mejlet från Gupea som skickats ut tillsammans med detta.<% end %>
 
 Din avhandling kommer att få följande länk när den är e-publicerad:
 http://hdl.handle.net/<%= handle %>
 
 Om du sedan tidigare har ett konto i GUPEA gäller det lösenord du redan valt. Det går också att byta till ett nytt lösenord.
 
-När du loggar in i GUPEA finns din avhandling under rubriken "Påbörjade registreringar".
+När du loggar in i GUPEA finns din avhandling under rubriken "Dina registreringar".
 
 Detaljerade anvisningar för publiceringen finns på:
 https://www.ub.gu.se/sv/publicera/e-spika-avhandling-i-gupea
@@ -36,7 +33,8 @@ Vänliga hälsningar
 GUPEA-support, Göteborgs universitetsbibliotek
 
 
-*****************************************************
+**********************************************************
+
 Instructions for E-publishing a PhD Thesis in GUPEA:
 
 Please note! In order to e-publish, your thesis and abstract ("spikbladet") must be available as a pdf file. The e-published thesis must be identical to the printed version.
@@ -46,20 +44,19 @@ E-publication of a thesis based on a number of scientific articles is limited to
 An administrator at the department or the faculty will supervise your registration a few days before the nailing. Your thesis will be made available to the public on the same day that you nail your thesis.
 
 To start the e-publishing process go to:
-https://gupea.ub.gu.se/submissions
-To log in enter:
-Your e-mail address: <%= espikning.email %>
+<%= espikning_gupea_url %>
+Log in with your e-mail address: <%= espikning.email %>
+<%= if not eperson_exists do %>To set a password, click on the link in the mail from Gupea that was sent together with this one.<% end %>
 
-Your thesis will be assigned a unique Internet-id:
+Your thesis will be assigned a unique URL:
 http://hdl.handle.net/<%= handle %>
 
 If you already have an account in GUPEA you must use your previous password. You can also change to a new password.
 
-When you log in to GUPEA you will find your thesis under "Started Submissions".
+When you log in to GUPEA you will find your thesis under "Your Submissions".
 
 Detailed instructions are available at:
-https://www.ub.gu.se/sv/publicera/e-spika-avhandling-i-gupea
-
+https://www.ub.gu.se/en/publish/e-publish-a-doctoral-thesis-in-gupea
 Questions concerning content of your thesis should be put to your department/faculty.
 
 For questions concerning your registration, please contact:
@@ -70,12 +67,11 @@ Good luck with your e-publishing and your public defense!
 Best regards
 GUPEA support, Gothenburg University Library
 
-
 **********************************************************
+
 Göteborgs universitets publikationer elektroniskt arkiv
 University of Gothenburg Publications Electronic Archive
 
 https://gupea.ub.gu.se/
 
 gup@ub.gu.se
-
