@@ -33,7 +33,7 @@ defmodule Espikning.Espikningar do
       {:ok, _hmmm} <- DSpaceAPI.set_item_metadata(
         item_uuid, %{
           "dc.title" => title,
-          "dc.contributor.author" => "#{firstname}, #{lastname}",
+          "dc.contributor.author" => "#{lastname}, #{firstname}",
         },
         "add"
       ),
