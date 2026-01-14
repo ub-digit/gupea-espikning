@@ -64,8 +64,8 @@ defmodule EspikningWeb.EspikningController do
       espikning = Map.put(espikning, :collection_uuid, collection_uuid)
       espikning_gupea_url = frontend_url("/mydspace")
 
-      with {:ok, item_handle, eperson_exists} <- Espikningar.create_espikning(espikning),
-        {:ok, _response} <- Email.welcome(espikning, eperson_exists, item_handle, espikning_gupea_url) |> Mailer.deliver()
+      with {:ok, item_handle, edit_path, eperson_exists} <- Espikningar.create_espikning(espikning),
+        {:ok, _response} <- Email.welcome(espikning, eperson_exists, item_handle, frontend_url(edit_path), espikning_gupea_url) |> Mailer.deliver()
       do
         Logger.info("Espikning successfullu created: #{inspect(espikning)}")
         render(

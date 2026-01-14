@@ -40,7 +40,8 @@ defmodule Espikning.Espikningar do
       #{:ok, hmm2} <- DSpaceAPI.set_item_data(item_uuid, %{"/submitter" => eperson_uuid}, "replace"),
       {:ok, _policies} <- DSpaceAPI.create_eperson_policies(eperson_uuid, item_uuid)
     do
-      {:ok, item_handle, eperson_exists}
+      edit_path = "/submit/#{collection_uuid}/#{workspace_item_id}"
+      {:ok, item_handle, edit_path, eperson_exists}
     end
   end
 

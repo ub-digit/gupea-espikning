@@ -19,6 +19,8 @@ Om du sedan tidigare har ett konto i GUPEA gäller det lösenord du redan valt. 
 
 När du loggar in i GUPEA finns din avhandling under rubriken "Dina registreringar".
 
+Direktlänk till avhandlingen: <%= espikning_edit_url %>
+
 Detaljerade anvisningar för publiceringen finns på:
 https://www.ub.gu.se/sv/publicera/e-spika-avhandling-i-gupea
 
@@ -54,6 +56,8 @@ http://hdl.handle.net/<%= handle %>
 If you already have an account in GUPEA you must use your previous password. You can also change to a new password.
 
 When you log in to GUPEA you will find your thesis under "Your Submissions".
+
+Direct link to thesis: <%= espikning_edit_url %>
 
 Detailed instructions are available at:
 https://www.ub.gu.se/en/publish/e-publish-a-doctoral-thesis-in-gupea
