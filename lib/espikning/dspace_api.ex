@@ -1,7 +1,7 @@
 defmodule Espikning.DSpaceAPI do
   alias Espikning.DSpaceAPI.Client
 
-  @policy_actions ["ADD", "READ", "WRITE", "REMOVE"]
+  @policy_actions ["ADD", "READ", "WRITE", "REMOVE", "OBSOLETE (DELETE)"]
   @policy_type_submission "TYPE_SUBMISSION"
 
   def search_eperson_policies(eperson_uuid, resource_uuid) do
