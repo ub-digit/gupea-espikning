@@ -9,13 +9,10 @@ För att e-publicera måste du ha tillgång till din avhandling och spikbladet i
 
 För att genomföra e-publiceringen går du till sidan:
 <%= espikning_gupea_url %>
-Logga in med din e-postadress: <%= espikning.email %>.
-<%= if not eperson_exists do %>För att sätta ett lösenord, klicka på länken i mejlet från Gupea som skickats ut tillsammans med detta.<% end %>
+Logga in med ditt GU-konto.
 
 Din avhandling kommer att få följande länk när den är e-publicerad:
 http://hdl.handle.net/<%= handle %>
-
-Om du sedan tidigare har ett konto i GUPEA gäller det lösenord du redan valt. Det går också att byta till ett nytt lösenord.
 
 När du loggar in i GUPEA finns din avhandling under rubriken "Dina registreringar".
 
@@ -47,13 +44,10 @@ An administrator at the department or the faculty will supervise your registrati
 
 To start the e-publishing process go to:
 <%= espikning_gupea_url %>
-Log in with your e-mail address: <%= espikning.email %>
-<%= if not eperson_exists do %>To set a password, click on the link in the mail from Gupea that was sent together with this one.<% end %>
+Log in with your GU account.
 
 Your thesis will be assigned a unique URL:
 http://hdl.handle.net/<%= handle %>
-
-If you already have an account in GUPEA you must use your previous password. You can also change to a new password.
 
 When you log in to GUPEA you will find your thesis under "Your Submissions".
 
