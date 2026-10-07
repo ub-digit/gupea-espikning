@@ -26,10 +26,10 @@ defmodule Espikning.DSpaceAPI.Client do
   def get(endpoint, params \\ []), do: do_request({:get, endpoint, params})
 
   defp do_request(request, try_authenticate \\ true) do
-    case GenServer.call(__MODULE__, request) do
+    case GenServer.call(__MODULE__, request, @connect_timeout) do
       {:ok, response_json} -> {:ok, response_json}
       {:error, :unauthenticated} when try_authenticate  ->
-        case GenServer.call(__MODULE__, :authenticate) do
+        case GenServer.call(__MODULE__, :authenticate, @connect_timeout) do
           {:ok, _jwt, _csrf} ->
             do_request(request, false)
           {:error, reason} ->
